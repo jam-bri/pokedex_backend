@@ -8,11 +8,10 @@ from models import Pokemon
 
 app = FastAPI()
 
-class Pokemon(BaseModel):
+class PokemonSchema(BaseModel):
     id: int
     name : str
     sprite_url: str
-
 
 def get_db():
     db = SessionLocal()
@@ -21,10 +20,18 @@ def get_db():
     finally:
         db.close()
 
-@app.get("/pokemon")
+
+###API endpoints to retrive pokemon from database
+
+#Get all pokemon
+@app.get("/pokemon", response_model=List[PokemonSchema])
 def get_pokemon(db: Session = Depends(get_db)):
     return db.query(Pokemon).all()
-
-@app.get("/pokemon/{id}")
+#Get pokemon by id 
+@app.get("/pokemon/{id}", response_model=PokemonSchema)
 def get_pokemon_by_id(id: int, db: Session = Depends(get_db)):
     return db.query(Pokemon).filter(Pokemon.id == id).first()
+#Get pokemon by name
+@app.get("/pokemon/{name}", response_model= PokemonSchema)
+def get_pokemon_by_name(name: str, db: Session = Depends(get_db)):
+    return db.query(Pokemon).filter(Pokemon.name == name).first()
