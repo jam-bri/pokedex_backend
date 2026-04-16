@@ -5,8 +5,6 @@ import requests
 from database import SessionLocal
 from models import Pokemon
 
-#Create the database tables 
-Base.metadata.create_all(bind=engine)
 
 #importing pokemon data from pokeapi.co if not in database
 db = SessionLocal()

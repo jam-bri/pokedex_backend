@@ -2,9 +2,11 @@ from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List, Annotated
 from sqlalchemy.orm import Session
-from database import SessionLocal
+from database import Base, SessionLocal, engine
 from models import Pokemon, Favorites
 
+#Create the database tables 
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -71,7 +73,7 @@ def add_to_favorite(fav: FavoriteCreate, db: Session = Depends(get_db)):
     return {"message": "Added to favorites"}
 
 # Api to remove a pokemon from the favorites
-@app.delete("/favorites/{pokemon_id}", response_class=FavoritesSchema)
+@app.delete("/favorites/{pokemon_id}", response_model=FavoritesSchema)
 def remove_from_favorites(pokemon_id: int, db: Session = Depends(get_db)):
     favorite = db.query(Favorites).filter(Favorites.pokemon_id == pokemon_id).first()
     if not favorite:
