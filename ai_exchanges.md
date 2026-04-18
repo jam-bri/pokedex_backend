@@ -931,3 +931,6 @@ Tell me:
 * what terminal shows when running `uvicorn`
 
 I’ll pinpoint it immediately — no guessing.
+
+
+>This is my backend and readme. Help me make my readme better to help someone make it work. You have to be careful with the key and postgres code and so one. I have a requirements.txt with all the depedencies to install. Make it easy to understant and ppl will have to follow step by step without problem. For exemple for the secret key tell them what to run to have it
